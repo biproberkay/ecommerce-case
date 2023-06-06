@@ -21,13 +21,13 @@ namespace Berkay.ECommerceCase.Persistance
             _db = db;
         }
 
-        public void Initialize(DemoUserRegistration demoUserRegistration)
+        public void Initialize(DemoUser demoUserRegistration)
         {
             AddDemoUser(demoUserRegistration);
             _db.SaveChanges();
         }
 
-        private void AddDemoUser(DemoUserRegistration demoUserRegistration)
+        private void AddDemoUser(DemoUser demoUserRegistration)
         {
             Task.Run(async () =>
             {

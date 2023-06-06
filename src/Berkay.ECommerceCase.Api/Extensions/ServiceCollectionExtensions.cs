@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Berkay.ECommerceCase.Domain.Entities;
 using Berkay.ECommerceCase.Shared.Wrappers;
+using Berkay.ECommerceCase.Persistance.Services;
 
 namespace Berkay.ECommerceCase.Api.Extensions
 {
@@ -109,6 +110,11 @@ namespace Berkay.ECommerceCase.Api.Extensions
                         },
                     };
                 });
+            return services;
+        }
+        internal static IServiceCollection AddApplicationLayerServices(this IServiceCollection services)
+        {
+            services.AddTransient<ITokenService, IdentityService>();
             return services;
         }
         internal static void AddSwaggerConfiguration(this IServiceCollection services)

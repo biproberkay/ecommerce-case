@@ -12,28 +12,17 @@ namespace Berkay.ECommerceCase.Shared.Wrappers
         {
 
         }
-        //Solved issue: Implement interface includes throw new NotImplementedException... why?
-        // https://stackoverflow.com/a/51550759/12878692
-#if false
-        public List<string> Messages { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool Succeeded { get => throw new NotImplementedException(); set => throw new NotImplementedException(); } 
-#endif
-        public List<string>? Messages { get; set; }
+        public string? Message { get; set; }
         public bool Succeeded { get; set; }
 
         public static ICustomResult Fail(string message)
         {
-            return new CustomResult { Succeeded = false, Messages = new List<string> { message } };
-        }
-
-        public static ICustomResult Fail(List<string> messages)
-        {
-            return new CustomResult { Succeeded = false, Messages = messages };
+            return new CustomResult { Succeeded = false, Message = message  };
         }
 
         public static ICustomResult Success(string message)
         {
-            return new CustomResult { Succeeded = true, Messages = new List<string> { message } };
+            return new CustomResult { Succeeded = true, Message = message  };
         }
     }
 
@@ -47,36 +36,35 @@ namespace Berkay.ECommerceCase.Shared.Wrappers
         public T? Data { get; set; }
 
 
+        public new static CustomResult<T> Fail(string message)
+        {
+            return new CustomResult<T> { Succeeded = false, Message = message };
+        }
+        public static Task<CustomResult<T>> FailAsync(string message)
+        {
+            return Task.FromResult(Fail(message));
+        }
         public static CustomResult<T> Fail(T tData, string message)
         {
-            return new CustomResult<T> { Succeeded = false, Data = tData, Messages = new List<string> { message } };
+            return new CustomResult<T> { Succeeded = false, Data = tData, Message =  message };
         }
-        public new static ICustomResult<T> Fail(string message)
+        public static Task<CustomResult<T>> FailAsync(T tData, string message)
         {
-            return new CustomResult<T> { Succeeded = false, Messages = new List<string> { message } };
-        }
-        public new static ICustomResult<T> Fail(List<string> messages)
-        {
-            return new CustomResult<T> { Succeeded = false, Messages = messages };
+            return Task.FromResult(Fail(tData, message));
         }
 
-        /// <summary>
-        /// No need to send a message situation
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns>CustomResult<T></returns>
-        public static ICustomResult<T> Success(T data)
+        public static CustomResult<T> Success(T data)
         {
             return new CustomResult<T> { Succeeded = true, Data = data };
         }
-        public static ICustomResult<T> Success(T data, string message)
+        public static CustomResult<T> Success(T data, string message)
         {
-            return new CustomResult<T> { Succeeded = true, Data = data, Messages = new List<string> { message } };
+            return new CustomResult<T> { Succeeded = true, Data = data, Message = message };
         }
-        public static ICustomResult<T> Success(T data, List<string> messages)
+
+        public static Task<CustomResult<T>> SuccessAsync(T data)
         {
-            return new CustomResult<T> { Succeeded = true, Data = data, Messages = messages };
+            return Task.FromResult(Success(data));
         }
     }
-
 }

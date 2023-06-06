@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Berkay.ECommerceCase.Application.Configurations
 {
-    public class DemoUserRegistration
+    public class DemoUser
     {
         public string FirstName { get; set; } = "John";
         public string LastName { get; set; } = "Doe";

@@ -9,6 +9,6 @@ namespace Berkay.ECommerceCase.Application.Services
 {
     public interface IDatabaseSeeder
     {
-        void Initialize(DemoUserRegistration demoUserRegistration);
+        void Initialize(DemoUser demoUserRegistration);
     }
 }
