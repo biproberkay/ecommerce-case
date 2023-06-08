@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // todo: configurations
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-builder.Services.Configure<DemoUser>(builder.Configuration.GetSection("DemoUser"));
+builder.Services.Configure<DemoUserData>(builder.Configuration.GetSection("DemoUserData"));
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionSqlite");
 
 // Add services to the container.
@@ -37,8 +37,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var demoUser = builder.Configuration.Get<DemoUser>();
-app.Initialize(demoUser);
+var demoUser = builder.Configuration.Get<DemoUserData>();
+app.UseInitializer(demoUser);
 
 app.Run();
 

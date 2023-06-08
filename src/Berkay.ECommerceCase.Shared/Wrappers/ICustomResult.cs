@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Berkay.ECommerceCase.Shared.Wrappers
+namespace Berkay.ECommerceCase.Persistance.Wrappers
 {
     public interface ICustomResult
     {

@@ -1,6 +1,6 @@
 ﻿using Berkay.ECommerceCase.Application.HttpModels.Requests;
 using Berkay.ECommerceCase.Application.HttpModels.Responses;
-using Berkay.ECommerceCase.Shared.Wrappers;
+using Berkay.ECommerceCase.Persistance.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

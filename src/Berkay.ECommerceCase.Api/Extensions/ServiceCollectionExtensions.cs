@@ -12,15 +12,16 @@ using Berkay.ECommerceCase.Application.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Berkay.ECommerceCase.Domain.Entities;
-using Berkay.ECommerceCase.Shared.Wrappers;
+using Berkay.ECommerceCase.Persistance.Wrappers;
 using Berkay.ECommerceCase.Persistance.Services;
 
 namespace Berkay.ECommerceCase.Api.Extensions
 {
     internal static class ServiceCollectionExtensions
     {
-        internal static IServiceCollection AddDatabaseConfiguration( this IServiceCollection services,string connectionString)
-            => services
+        internal static IServiceCollection AddDatabaseConfiguration(this IServiceCollection services, string connectionString)
+        {
+            return services
                 .AddDbContext<ECommerceDbContext>(options => options
                     //Npgsql
                     //.UseNpgsql(connectionString, o => o.MigrationsAssembly("Berkay.ECommerceCase.Persistance"))
@@ -28,8 +29,10 @@ namespace Berkay.ECommerceCase.Api.Extensions
                     .UseSqlite(connectionString, o => o.MigrationsAssembly("Berkay.ECommerceCase.Persistance")
                     )
                 )
-            //.UseSqlServer(connectionString.GetConnectionString("DefaultConnection")))
-            .AddTransient<IDatabaseSeeder, DatabaseSeeder>();
+                //.UseSqlServer(connectionString.GetConnectionString("DefaultConnection")))
+                .AddTransient<IDatabaseSeeder, DatabaseSeeder>();
+        }
+
         internal static IServiceCollection AddIdentityConfiguration(this IServiceCollection services)
         {
             services

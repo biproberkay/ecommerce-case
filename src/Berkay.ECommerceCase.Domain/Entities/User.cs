@@ -13,6 +13,8 @@ public class User : IdentityUser<string>
 
     public override bool EmailConfirmed { get; set; } = true;
 
+    public List<Cart> Carts { get; set; } // Kullanıcının sepetleri
+
 }
 
 

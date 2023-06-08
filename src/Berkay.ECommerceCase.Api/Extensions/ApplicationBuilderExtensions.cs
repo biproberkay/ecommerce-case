@@ -15,7 +15,7 @@ namespace Berkay.ECommerceCase.Api.Extensions
                 options.DisplayRequestDuration();
             });
         }
-        internal static IApplicationBuilder Initialize(this IApplicationBuilder app, DemoUser demoUserRegistration)
+        internal static IApplicationBuilder UseInitializer(this IApplicationBuilder app, DemoUserData demoUserRegistration)
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
 

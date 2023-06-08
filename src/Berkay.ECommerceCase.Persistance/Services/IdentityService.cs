@@ -3,7 +3,7 @@ using Berkay.ECommerceCase.Application.HttpModels.Requests;
 using Berkay.ECommerceCase.Application.HttpModels.Responses;
 using Berkay.ECommerceCase.Application.Services;
 using Berkay.ECommerceCase.Domain.Entities;
-using Berkay.ECommerceCase.Shared.Wrappers;
+using Berkay.ECommerceCase.Persistance.Wrappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
