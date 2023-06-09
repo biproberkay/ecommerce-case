@@ -115,17 +115,13 @@ namespace Berkay.ECommerceCase.Api.Extensions
                 });
             return services;
         }
-        internal static IServiceCollection AddApplicationLayerServices(this IServiceCollection services)
-        {
-            services.AddTransient<ITokenService, IdentityService>();
-            return services;
-        }
+        
         internal static void AddSwaggerConfiguration(this IServiceCollection services)
         {
-            services.AddSwaggerGen( c =>
+            services.AddSwaggerGen( cfg =>
             {
                 //TODO - Lowercase Swagger Documents
-                //c.DocumentFilter<LowercaseDocumentFilter>();
+                //cfg.DocumentFilter<LowercaseDocumentFilter>();
                 //Refer - https://gist.github.com/rafalkasa/01d5e3b265e5aa075678e0adfd54e23f
 
                 // include all project's xml comments
@@ -138,12 +134,12 @@ namespace Berkay.ECommerceCase.Api.Extensions
                         var xmlPath = Path.Combine(baseDirectory, xmlFile);
                         if (File.Exists(xmlPath))
                         {
-                            c.IncludeXmlComments(xmlPath);
+                            cfg.IncludeXmlComments(xmlPath);
                         }
                     }
                 }
 
-                c.SwaggerDoc("v1", new OpenApiInfo
+                cfg.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "ECommerceCase",
@@ -154,7 +150,7 @@ namespace Berkay.ECommerceCase.Api.Extensions
                     }
                 });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     In = ParameterLocation.Header,
@@ -163,7 +159,7 @@ namespace Berkay.ECommerceCase.Api.Extensions
                     BearerFormat = "JWT",
                     Description = "Input your Bearer token in this format - Bearer {your token here} to access this API",
                 });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                cfg.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme

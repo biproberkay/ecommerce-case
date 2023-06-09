@@ -1,3 +1,5 @@
+using Berkay.ECommerceCase.Persistance;
+using Berkay.ECommerceCase.Application;
 using Berkay.ECommerceCase.Api.Extensions;
 using Berkay.ECommerceCase.Application.Configurations;
 using Microsoft.Extensions.Options;
@@ -19,6 +21,7 @@ builder.Services.AddIdentityConfiguration();
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 builder.Services.AddJwtConfiguration(jwtSettings );
 builder.Services.AddApplicationLayerServices();
+builder.Services.AddPersistanceLayerServices();
 builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
