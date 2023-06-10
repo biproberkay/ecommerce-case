@@ -7,11 +7,24 @@
     <UserSecretsId>5445019c-51d4-4041-b6de-f40f4123076e</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.16">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Berkay.ECommerceCase.Application\Berkay.ECommerceCase.Application.csproj" />
+    <ProjectReference Include="..\Berkay.ECommerceCase.Persistance\Berkay.ECommerceCase.Persistance.csproj" />
+    <ProjectReference Include="..\Berkay.ECommerceCase.Shared\Berkay.ECommerceCase.Shared.csproj" />
   </ItemGroup>
 
 </Project>

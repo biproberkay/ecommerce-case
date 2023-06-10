@@ -1,9 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Berkay.ECommerceCase.Domain\Berkay.ECommerceCase.Domain.csproj" />
+    <ProjectReference Include="..\Berkay.ECommerceCase.Shared\Berkay.ECommerceCase.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\CartFeature\Commands\" />
+    <Folder Include="Features\CartFeature\EventHandlers\" />
+    <Folder Include="Features\ProductFeature\EventHandlers\" />
+  </ItemGroup>
 
 </Project>
