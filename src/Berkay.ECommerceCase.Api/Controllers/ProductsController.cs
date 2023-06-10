@@ -1,6 +1,7 @@
 ﻿using Berkay.ECommerceCase.Application.Features.CartFeature.Queries;
 using Berkay.ECommerceCase.Application.Features.ProductFeature.Commands;
 using Berkay.ECommerceCase.Application.Features.ProductFeature.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Berkay.ECommerceCase.Api.Controllers
@@ -8,6 +9,7 @@ namespace Berkay.ECommerceCase.Api.Controllers
     /// <summary>
     /// Controller for Product entity
     /// </summary>
+    [Authorize]
     public class ProductsController : ApiControllerBase
     {
         /// <summary>

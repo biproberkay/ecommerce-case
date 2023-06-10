@@ -28,8 +28,12 @@ namespace Berkay.ECommerceCase.Application.Features.CartFeature.Queries
 
             public async Task<CustomResult<Cart>> Handle(GetCartQuery request, CancellationToken cancellationToken)
             {
-                var cart = await _context.Carts.Include(c=>c.CartItems).ThenInclude(i=>i.Product).AsNoTracking()
-                    .FirstAsync(c => c.UserId == _currentUserService.UserId, cancellationToken);
+                var cart = await _context.Carts
+                                            .Include(c=>c.CartItems)
+                                                .ThenInclude(i=>i.Product)
+                                            .AsNoTracking()
+                                            .FirstAsync(c => c.UserId == _currentUserService.UserId, cancellationToken);
+
                 cart = HandleDiscounts(cart);
 
                 return await CustomResult<Cart>.SuccessAsync(cart);
@@ -42,24 +46,20 @@ namespace Berkay.ECommerceCase.Application.Features.CartFeature.Queries
                     var discountByCart = _context.DiscountByCarts.AsNoTracking()
                                         .Where(d => cart.CalculatedAmount >= d.MinTotalPrice)
                                         .OrderByDescending(d => (double)d.MinTotalPrice)
-                                        .First();
+                                        .FirstOrDefault();
                     foreach (var discountByCategory in discountByCategories)
                     {
-                        if (cart.CartItems is not null)
                             if (cart.CartItems.Any(i => i.CategoryId == discountByCategory.CategoryId))
                             {
                                 int totalQuantity = cart.CartItems.Where(i => i.CategoryId == discountByCategory.CategoryId).Sum(i => i.Quantity);
                                 if (totalQuantity >= discountByCategory.MinQuantity)
                                 {
 
-                                    var cheapestOne = cart.CartItems.OrderBy(i => i.ProductPrice).First();//find lowest price
-                                    if (cheapestOne is not null)
+                                    var categoryCheapestOne = cart.CartItems.Where(i=>i.CategoryId==discountByCategory.CategoryId).OrderBy(i => i.ProductPrice).FirstOrDefault();//find lowest price
+                                    if (categoryCheapestOne?.ProductPrice is not null)
                                     {
                                         // discount only for one quantity of a cartitem object. not for all quantities 
-                                        cheapestOne.DiscountAmount = cheapestOne.ProductPrice * discountByCategory.Percentage;
-
-                                        var indexof = cart.CartItems.IndexOf(cart.CartItems.First(i => i.Id == cheapestOne.Id));
-                                        cart.CartItems[indexof] = cheapestOne;
+                                        categoryCheapestOne.DiscountAmount = (decimal)categoryCheapestOne.ProductPrice * discountByCategory.Percentage;
                                     }
                                 }
                             }
@@ -68,7 +68,13 @@ namespace Berkay.ECommerceCase.Application.Features.CartFeature.Queries
                     //cart.CalculatedAmount = cart.CartItems.Sum(i => i.CalculatedAmount);
 
                     // only for the highest 
-                    cart.DiscountAmount = cart.CalculatedAmount * discountByCart.Percentage;
+                    if(cart.CalculatedAmount is not null)
+                    {
+                        if(discountByCart is not null)
+                        {
+                            cart.DiscountAmount = (decimal)cart.CalculatedAmount * discountByCart.Percentage;
+                        }
+                    }
                 }
                 return cart;
             }

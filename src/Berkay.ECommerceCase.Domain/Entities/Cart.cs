@@ -8,8 +8,8 @@ using System.Text.Json.Serialization;
 public class Cart : BaseEntity, IDiscountable
 {
     public override string Id { get => base.Id; set => base.Id = value; }
-    [NotMapped] public decimal DiscountAmount { get; set; }
-    [NotMapped] public decimal CalculatedAmount {
+    [NotMapped] public decimal DiscountAmount { get; set; } = 0.00m;
+    [NotMapped] public decimal? CalculatedAmount {
         get
         {
             if(CartItems is not null)
@@ -18,11 +18,11 @@ public class Cart : BaseEntity, IDiscountable
             }
             else
             {
-                return 0.00m;
+                return null;
             }
         }
     }
-    public List<CartItem>? CartItems { get; set; }
+    public List<CartItem> CartItems { get; set; } = new();
 
     public string? UserId { get; set; } // Kullanıcı ilişkisi için UserId
 

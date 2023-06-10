@@ -24,6 +24,10 @@ namespace Berkay.ECommerceCase.Persistance
 
         public void Initialize(DemoUserData demoUserData)
         {
+            if (_db.Database.GetPendingMigrations().Any())
+            {
+                _db.Database.Migrate();
+            }
             if (!_db.Users.Any(u => u.Email == demoUserData.Email))
             { 
                 AddDemoUser(demoUserData);

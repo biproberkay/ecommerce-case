@@ -8,6 +8,6 @@ namespace Berkay.ECommerceCase.Domain.Contracts
 {
     public interface IDiscountable
     {
-        public decimal DiscountAmount { get; set; }
+        decimal DiscountAmount { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Berkay.ECommerceCase.Domain.Entities
 {
-    public class CartItem :BaseEntity, IDiscountable
+    public class CartItem : BaseEntity, IDiscountable
     {
         public override string Id { get => base.Id; set => base.Id = value; }//this is for inheriting data annotaion
         public int Quantity { get; set; }
@@ -22,30 +22,50 @@ namespace Berkay.ECommerceCase.Domain.Entities
         public Product? Product { get; set; }
 
         [NotMapped]
-        public decimal ProductPrice
+        public decimal? ProductPrice
         {
             get
             {
                 if (Product is not null)
                     return Product.Price;
                 else
-                    return 0.00m;
+                    return null;
             }
         }
         [NotMapped]
-        public int CategoryId
+        public int? CategoryId
         {
             get
             {
                 if (Product is not null)
                     return Product.CategoryId;
                 else
-                    return 0;
+                    return null;
             }
         }
         [NotMapped]
-        public decimal DiscountAmount { get; set; }
+        public string? ProductName
+        {
+            get
+            {
+                if (Product is not null)
+                    return Product.Name;
+                else
+                    return null;
+            }
+        }
         [NotMapped]
-        public decimal CalculatedAmount => ProductPrice * Quantity - DiscountAmount;
+        public decimal DiscountAmount { get; set; } = 0.00m;
+        [NotMapped]
+        public decimal? CalculatedAmount
+        {
+            get
+            {
+                if (ProductPrice is not null)
+                    return (decimal)ProductPrice * Quantity - DiscountAmount;
+                else
+                    return null;
+            }
+        }
     }
 }
