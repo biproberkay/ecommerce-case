@@ -3,6 +3,9 @@ using Berkay.ECommerceCase.Application.Services;
 
 namespace Berkay.ECommerceCase.Api.Extensions
 {
+    /// <summary>
+    /// Api Middlewares
+    /// </summary>
     public static class ApplicationBuilderExtensions
     {
         internal static void UseSwaggerConfiguration(this IApplicationBuilder app)

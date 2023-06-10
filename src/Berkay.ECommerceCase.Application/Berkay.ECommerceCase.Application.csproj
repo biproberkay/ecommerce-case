@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
@@ -18,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\ProductFeature\Commands\" />
+    <Folder Include="Features\CartFeature\Commands\" />
+    <Folder Include="Features\CartFeature\EventHandlers\" />
+    <Folder Include="Features\ProductFeature\EventHandlers\" />
   </ItemGroup>
 
 </Project>

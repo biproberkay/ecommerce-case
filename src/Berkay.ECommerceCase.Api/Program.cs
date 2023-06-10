@@ -3,6 +3,9 @@ using Berkay.ECommerceCase.Application;
 using Berkay.ECommerceCase.Api.Extensions;
 using Berkay.ECommerceCase.Application.Configurations;
 using Microsoft.Extensions.Options;
+using Berkay.ECommerceCase.Application.Services;
+using Berkay.ECommerceCase.Api.Services;
+using Berkay.ECommerceCase.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,7 @@ var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSetting
 builder.Services.AddJwtConfiguration(jwtSettings );
 builder.Services.AddApplicationLayerServices();
 builder.Services.AddPersistanceLayerServices();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
@@ -33,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseAuthentication();
 

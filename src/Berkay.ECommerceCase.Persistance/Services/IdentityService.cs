@@ -138,8 +138,8 @@ namespace Berkay.ECommerceCase.Persistance.Services
             {
                 new(ClaimTypes.NameIdentifier, user.Id),
                 new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Name, user.FirstName),
-                new(ClaimTypes.Surname, user.LastName),
+                new(ClaimTypes.Name, user.FirstName ?? string.Empty),
+                new(ClaimTypes.Surname, user.LastName ?? string.Empty),
                 new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
             };
 

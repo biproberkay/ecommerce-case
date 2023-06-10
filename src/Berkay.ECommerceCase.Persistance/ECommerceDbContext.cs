@@ -12,10 +12,9 @@ namespace Berkay.ECommerceCase.Persistance
         public ECommerceDbContext(DbContextOptions options) : base(options)
         {
         }
-
+#nullable disable
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<DiscountByCart> DiscountByCarts { get; set; }

@@ -4,12 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Berkay.ECommerceCase.Api.Controllers
 {
+    /// <summary>
+    /// Token controller
+    /// </summary>
     [Route("api/token")]
     [ApiController]
     public class TokenController: ControllerBase
     {
         private readonly ITokenService _identityService;
-
+        /// <summary>
+        /// constractor
+        /// </summary>
+        /// <param name="identityService"></param>
         public TokenController(ITokenService identityService)
         {
             _identityService = identityService;
@@ -20,6 +26,15 @@ namespace Berkay.ECommerceCase.Api.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Status 200 OK</returns>
+        /// <remarks>
+        /// Sample value of message https://medium.com/c-sharp-progarmming/xml-comments-swagger-net-core-a390942d3329
+        /// 
+        ///     {
+        ///        "email": "john@anymail.com",
+        ///        "password": "Qwerty123+"
+        ///     }
+        ///     
+        /// </remarks>
         [HttpPost]
         public async Task<ActionResult> Get(TokenRequest model)
         {

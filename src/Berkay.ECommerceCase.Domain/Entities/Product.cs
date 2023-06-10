@@ -1,17 +1,16 @@
-﻿namespace Berkay.ECommerceCase.Domain.Entities;
-
+﻿using Berkay.ECommerceCase.Domain.Contracts;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-public class Product
+namespace Berkay.ECommerceCase.Domain.Entities;
+
+public class Product : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string Id { get; set; }
+    public override string Id { get => base.Id; set => base.Id = value; }
 
     [Required(ErrorMessage = "Product name is required.")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [MaxLength(250, ErrorMessage = "Description can have a maximum of 250 characters.")]
     public string? Description { get; set; }
@@ -31,9 +30,9 @@ public class Product
 
     // Category ilişkisi
     public int CategoryId { get; set; }
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
 
     // CartItem ilişkisi
-    public ICollection<CartItem> CartItems { get; set; }
+    public ICollection<CartItem>? CartItems { get; set; }
 }
 
