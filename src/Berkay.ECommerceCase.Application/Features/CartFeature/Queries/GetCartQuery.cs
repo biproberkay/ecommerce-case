@@ -4,6 +4,7 @@ using Berkay.ECommerceCase.Domain.Events;
 using Berkay.ECommerceCase.Persistance.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace Berkay.ECommerceCase.Application.Features.CartFeature.Queries
                                                 .ThenInclude(i=>i.Product)
                                             .AsNoTracking()
                                             .FirstAsync(c => c.UserId == _currentUserService.UserId, cancellationToken);
-
+                Log.Information("Cart fetch sucessfull");
                 cart = HandleDiscounts(cart);
 
                 return await CustomResult<Cart>.SuccessAsync(cart);
@@ -43,26 +44,30 @@ namespace Berkay.ECommerceCase.Application.Features.CartFeature.Queries
                 if (cart.CartItems is not null)
                 {
                     var discountByCategories = _context.DiscountByCategories.AsNoTracking().ToList();
+                    Log.Information("active category discounts fetch");
                     var discountByCart = _context.DiscountByCarts.AsNoTracking()
                                         .Where(d => cart.CalculatedAmount >= d.MinTotalPrice)
                                         .OrderByDescending(d => (double)d.MinTotalPrice)
                                         .FirstOrDefault();
+                    Log.Information("active cart discounts fetch");
                     foreach (var discountByCategory in discountByCategories)
                     {
-                            if (cart.CartItems.Any(i => i.CategoryId == discountByCategory.CategoryId))
+                        if (cart.CartItems.Any(i => i.CategoryId == discountByCategory.CategoryId))
+                        {
+                            int totalQuantity = cart.CartItems.Where(i => i.CategoryId == discountByCategory.CategoryId).Sum(i => i.Quantity);
+                            if (totalQuantity >= discountByCategory.MinQuantity)
                             {
-                                int totalQuantity = cart.CartItems.Where(i => i.CategoryId == discountByCategory.CategoryId).Sum(i => i.Quantity);
-                                if (totalQuantity >= discountByCategory.MinQuantity)
-                                {
 
-                                    var categoryCheapestOne = cart.CartItems.Where(i=>i.CategoryId==discountByCategory.CategoryId).OrderBy(i => i.ProductPrice).FirstOrDefault();//find lowest price
-                                    if (categoryCheapestOne?.ProductPrice is not null)
-                                    {
-                                        // discount only for one quantity of a cartitem object. not for all quantities 
-                                        categoryCheapestOne.DiscountAmount = (decimal)categoryCheapestOne.ProductPrice * discountByCategory.Percentage;
-                                    }
+                                var categoryCheapestOne = cart.CartItems.Where(i=>i.CategoryId==discountByCategory.CategoryId).OrderBy(i => i.ProductPrice).FirstOrDefault();//find lowest price
+                                if (categoryCheapestOne?.ProductPrice is not null)
+                                {
+                                    // discount only for one quantity of a cartitem object. not for all quantities 
+                                    categoryCheapestOne.DiscountAmount = (decimal)categoryCheapestOne.ProductPrice * discountByCategory.Percentage;
+                                    Log.Information("sepete indirim uygulandi");
                                 }
                             }
+                        }
+                        Log.Warning("Sepetteki ürünlerin kategorisine uygulanabilecek indirim yok");
                     }
 
                     //cart.CalculatedAmount = cart.CartItems.Sum(i => i.CalculatedAmount);
@@ -73,6 +78,7 @@ namespace Berkay.ECommerceCase.Application.Features.CartFeature.Queries
                         if(discountByCart is not null)
                         {
                             cart.DiscountAmount = (decimal)cart.CalculatedAmount * discountByCart.Percentage;
+                            Log.Information("sepete indirim uygulandi");
                         }
                     }
                 }
